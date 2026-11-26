@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AU EMS</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Roboto,Arial,sans-serif;background:#efefef;color:#555}
+.header{background:#2568ab;color:#fff;padding:28px 20px 40px;text-align:center}
+.brand{display:flex;align-items:center;justify-content:center;gap:16px;max-width:700px;margin:0 auto}
+.emblem{width:84px;height:84px;border-radius:50%;border:5px solid #c9a227;background:#8b1a1a;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#f5d76e;flex:none}
+.brand-text{text-align:left}
+.brand-text .te{font-size:26px;font-weight:700}
+.brand-text .en{font-size:30px;font-weight:700;letter-spacing:.5px;line-height:1.1}
+.brand-text .nc{font-size:11px;border-top:1px solid #fff;margin-top:6px;padding-top:4px}
+.title{font-size:64px;font-weight:700;color:#e8edf5;margin:34px 0 0;text-shadow:2px 3px 6px rgba(0,0,0,.35)}
+.bar{background:#fff;height:90px;box-shadow:0 2px 4px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:flex-end;padding:0 28px}
+.menu{background:#2568ab;width:81px;height:62px;border:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:7px}
+.menu span{display:block;width:42px;height:4px;background:#fff}
+.card{background:#fff;max-width:640px;margin:28px auto;padding:30px 28px 36px;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+.card h2{font-weight:300;font-size:30px;line-height:1.25;color:#2f6a9c;margin:0 0 50px;text-transform:uppercase}
+label{display:block;font-weight:700;font-size:25px;margin:0 0 14px}
+input{width:100%;font-size:22px;padding:18px 22px;border:1px solid #ccc;color:#555;font-family:inherit}
+.field{margin-bottom:44px}
+.cap{display:flex;border:1px solid #ddd}
+.cap canvas{width:226px;height:76px;flex:none;background:#eef3f8}
+.cap input{border:0;font-size:22px}
+.btn-wrap{text-align:center}
+button.submit{background:#5aa0e0;color:#fff;font-size:30px;border:3px solid #111;border-radius:4px;padding:16px 30px;cursor:pointer}
+.err{color:#c0392b;font-size:18px;margin-top:10px;min-height:22px}
+.msg{font-size:30px;line-height:1.4;color:#2f6a9c;text-align:center;margin:20px 0 10px}
+.reg{text-align:center;font-size:22px;margin-bottom:30px}
+a.back{display:block;text-align:center;color:#2568ab;font-size:20px;cursor:pointer}
+#resultPage{display:none}
+@media(max-width:520px){.title{font-size:48px}.brand-text .en{font-size:22px}.brand-text .te{font-size:20px}.card h2{font-size:24px}}
+</style>
+</head>
+<body>
+
+<!-- HEADER (shown on both pages) -->
+<div class="header">
+  <div class="brand">
+    <div class="emblem">AU</div>
+    <div class="brand-text">
+      <div class="te">ఆంధ్ర విశ్వకళాపరిషత్</div>
+      <div class="en">ANDHRA UNIVERSITY</div>
+      <div class="nc">Accredited by NAAC with A++ Grade &amp; Score: 3.74</div>
+    </div>
+  </div>
+  <h1 class="title">AU EMS</h1>
+</div>
+<div class="bar"><button class="menu" aria-label="Menu"><span></span><span></span><span></span></button></div>
+
+<!-- PAGE 1: LOGIN -->
+<div class="card" id="loginPage">
+  <h2>UG(ALL COURSES) SECOND YEAR(GRADING) SPECIAL DRIVE EXAMINATIONS HELD IN JUNE 2026</h2>
+  <div class="field">
+    <label for="reg">Registration Number *</label>
+    <input id="reg" inputmode="numeric" maxlength="15" autocomplete="off">
+  </div>
+  <div class="field">
+    <label for="sec">Security Code *</label>
+    <div class="cap">
+      <canvas id="cv" width="452" height="152" title="Click to refresh"></canvas>
+      <input id="sec" inputmode="numeric" maxlength="6" autocomplete="off">
+    </div>
+    <div class="err" id="err"></div>
+  </div>
+  <div class="btn-wrap"><button class="submit" id="go">Submit</button></div>
+</div>
+
+<!-- PAGE 2: MESSAGE -->
+<div class="card" id="resultPage">
+  <h2 style="margin-bottom:30px">Registration Number</h2>
+  <div class="reg" id="regShow"></div>
+  <p class="msg">First you prepare for the third sem examination.<br>Result will come soon.</p>
+  <a class="back" id="back">&larr; Back</a>
+</div>
+
+<script>
+let code="";
+function draw(){
+  code=String(Math.floor(100000+Math.random()*900000));
+  const c=document.getElementById("cv"),x=c.getContext("2d");
+  x.clearRect(0,0,c.width,c.height);
+  x.fillStyle="#eef3f8";x.fillRect(0,0,c.width,c.height);
+  x.fillStyle="#2a6ab0";
+  for(let i=0;i<60;i++)x.fillRect(Math.random()*c.width,Math.random()*c.height,3,3);
+  x.font="bold 84px Arial";x.textBaseline="middle";
+  for(let i=0;i<6;i++){
+    x.save();
+    x.translate(26+i*68,78+(Math.random()*14-7));
+    x.rotate(Math.random()*.3-.15);
+    x.fillText(code[i],0,0);
+    x.restore();
+  }
+  x.strokeStyle="#223";x.lineWidth=2;
+  for(let i=0;i<3;i++){x.beginPath();x.moveTo(0,Math.random()*152);x.lineTo(452,Math.random()*152);x.stroke();}
+}
+draw();
+document.getElementById("cv").onclick=draw;
+
+document.getElementById("go").onclick=function(){
+  const reg=document.getElementById("reg").value.trim();
+  const sec=document.getElementById("sec").value.trim();
+  const err=document.getElementById("err");
+  if(!reg){err.textContent="Please enter Registration Number";return}
+  if(sec!==code){
+    err.textContent="Invalid Security Code";
+    draw();
+    document.getElementById("sec").value="";
+    return;
+  }
+  err.textContent="";
+  document.getElementById("regShow").textContent=reg.replace(/[^0-9A-Za-z]/g,"");
+  document.getElementById("loginPage").style.display="none";
+  document.getElementById("resultPage").style.display="block";
+  window.scrollTo(0,0);
+};
+
+document.getElementById("back").onclick=function(){
+  document.getElementById("resultPage").style.display="none";
+  document.getElementById("loginPage").style.display="block";
+  document.getElementById("reg").value="";
+  document.getElementById("sec").value="";
+  draw();
+};
+</script>
+</body>
+</html>
